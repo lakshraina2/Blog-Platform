@@ -1,0 +1,126 @@
+:root {
+  --bg: #fbf8f4; /* soft cream background */
+  --card: #ffffff; /* card background */
+  --accent: #a07c59; /* warm neutral accent */
+  --accent-dark: #856247;
+  --muted-surface: #f6f3ef; /* slightly off-white surfaces */
+  --text: #2f2f2f; /* primary text */
+  --muted: #6f6f6f; /* secondary text */
+  --border: #e9e5e0;
+  --shadow: 0 6px 20px rgba(40, 32, 24, 0.06);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: white;
+  box-shadow: 0 6px 18px rgba(160, 124, 89, 0.12);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-dark);
+}
+
+.btn-secondary {
+  background-color: var(--muted);
+  color: white;
+}
+
+.btn-secondary:hover {
+  filter: brightness(0.95);
+}
+
+.btn-danger {
+  background-color: #c05252;
+  color: white;
+}
+
+.btn-danger:hover {
+  filter: brightness(0.95);
+}
+
+.btn-success {
+  background-color: #3aa46b;
+  color: white;
+}
+
+.btn-success:hover {
+  filter: brightness(0.95);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  background: var(--card);
+}
+
+.form-group textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.error {
+  color: #dc3545;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.success {
+  color: #28a745;
+  margin-top: 5px;
+  font-size: 14px;
+}
+

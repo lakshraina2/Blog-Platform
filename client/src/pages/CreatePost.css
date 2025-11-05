@@ -1,0 +1,21 @@
+.create-post {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  max-width: 880px;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+}
+
+.create-post h2 {
+  margin-bottom: 2rem;
+  color: var(--text);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+

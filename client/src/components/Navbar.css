@@ -1,0 +1,45 @@
+.navbar {
+  background-color: var(--card);
+  box-shadow: 0 6px 20px rgba(40, 32, 24, 0.06);
+  padding: 1rem 0;
+  position: sticky;
+  top: 12px;
+  z-index: 100;
+  border: 1px solid var(--border);
+  margin: 0 12px;
+  border-radius: 12px;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.5rem;
+  transition: color 0.18s ease, transform 0.18s ease;
+  border-radius: 8px;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+  transform: translateY(-2px);
+  background: var(--muted-surface);
+}
+

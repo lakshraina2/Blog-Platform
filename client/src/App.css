@@ -1,0 +1,17 @@
+.App {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+main {
+  padding: 36px 0;
+  min-height: calc(100vh - 80px);
+}
+
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
