@@ -1,13 +1,34 @@
 :root {
   --bg: #fbf8f4; /* soft cream background */
   --card: #ffffff; /* card background */
-  --accent: #a07c59; /* warm neutral accent */
-  --accent-dark: #856247;
+  --accent: #6a5af9; /* vibrant indigo */
+  --accent-dark: #5844f4;
+  --accent-2: #ff7ab6; /* pink */
+  --accent-3: #30c7ec; /* cyan */
   --muted-surface: #f6f3ef; /* slightly off-white surfaces */
   --text: #2f2f2f; /* primary text */
   --muted: #6f6f6f; /* secondary text */
   --border: #e9e5e0;
   --shadow: 0 6px 20px rgba(40, 32, 24, 0.06);
+  --ring: 0 0 0 4px rgba(106, 90, 249, 0.22);
+  --radius: 12px;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-heading: 'Space Grotesk', 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg: #0f1115;
+  --card: #161a22;
+  --accent: #8f85ff;
+  --accent-dark: #7a70ff;
+  --accent-2: #ff8ac2;
+  --accent-3: #45d3f3;
+  --muted-surface: #12161d;
+  --text: #e8e8e8;
+  --muted: #a2a2a2;
+  --border: #232936;
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  --ring: 0 0 0 4px rgba(143, 133, 255, 0.24);
 }
 
 * {
@@ -17,15 +38,71 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.5;
+  background-image:
+    linear-gradient(180deg, rgba(255,122,182,0.10) 0%, rgba(48,199,236,0.08) 50%, rgba(106,90,249,0.08) 100%),
+    radial-gradient( rgba(0,0,0,0.035) 1px, transparent 1px ),
+    radial-gradient( rgba(0,0,0,0.025) 1px, transparent 1px );
+  background-position: 0 0, 25px 25px;
+  background-size: 50px 50px;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
+
+[data-theme="dark"] body {
+  background-image:
+    linear-gradient(180deg, rgba(138,116,255,0.18) 0%, rgba(69,211,243,0.08) 50%, rgba(255,138,194,0.08) 100%),
+    radial-gradient( rgba(255,255,255,0.04) 1px, transparent 1px ),
+    radial-gradient( rgba(255,255,255,0.03) 1px, transparent 1px );
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+h1 { font-size: clamp(2rem, 1.6rem + 1.2vw, 2.6rem); }
+h2 { font-size: clamp(1.6rem, 1.3rem + 0.8vw, 2rem); }
+h3 { font-size: clamp(1.3rem, 1.1rem + 0.6vw, 1.6rem); }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1rem; }
+
+p { margin: 0; }
+p + p { margin-top: 0.75rem; }
+ul, ol { padding-left: 1.2rem; }
+ul li + li, ol li + li { margin-top: 0.25rem; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Fancy underline helper */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline:after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -2px;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+.link-underline:hover:after { transform: scaleX(1); }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -38,25 +115,56 @@ code {
   padding: 0 20px;
 }
 
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Colorful pills */
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--muted-surface);
+  color: var(--text);
+}
+.pill.indigo { background: rgba(106,90,249,0.12); border-color: rgba(106,90,249,0.35); }
+.pill.pink { background: rgba(255,122,182,0.14); border-color: rgba(255,122,182,0.35); }
+.pill.cyan { background: rgba(48,199,236,0.14); border-color: rgba(48,199,236,0.35); }
+
 .btn {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 600;
   transition: all 0.3s;
   text-decoration: none;
   display: inline-block;
 }
 
+.btn:focus {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
 .btn-primary {
-  background-color: var(--accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: white;
-  box-shadow: 0 6px 18px rgba(160, 124, 89, 0.12);
+  box-shadow: 0 6px 18px rgba(106, 90, 249, 0.25);
 }
 
 .btn-primary:hover {
-  background-color: var(--accent-dark);
+  background: linear-gradient(135deg, var(--accent-dark), var(--accent-2));
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
@@ -66,6 +174,7 @@ code {
 
 .btn-secondary:hover {
   filter: brightness(0.95);
+  transform: translateY(-1px);
 }
 
 .btn-danger {
@@ -75,6 +184,7 @@ code {
 
 .btn-danger:hover {
   filter: brightness(0.95);
+  transform: translateY(-1px);
 }
 
 .btn-success {
@@ -84,6 +194,17 @@ code {
 
 .btn-success:hover {
   filter: brightness(0.95);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+  background: var(--muted-surface);
 }
 
 .form-group {
@@ -105,6 +226,28 @@ code {
   font-size: 16px;
   font-family: inherit;
   background: var(--card);
+  color: var(--text);
+  caret-color: var(--accent);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--ring);
+}
+
+/* Improve placeholder and autofill visibility on light theme */
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--muted); }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--text) !important;
+  -webkit-box-shadow: 0 0 0px 1000px var(--card) inset !important;
+  transition: background-color 9999s ease-out 0s;
 }
 
 .form-group textarea {

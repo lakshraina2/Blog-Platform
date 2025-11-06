@@ -6,6 +6,9 @@ import './CreatePost.css';
 const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [imageFile, setImageFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -16,7 +19,18 @@ const CreatePost = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('/api/posts', { title, content });
+      let finalImageUrl = imageUrl;
+      if (imageFile) {
+        setUploading(true);
+        const form = new FormData();
+        form.append('image', imageFile);
+        const up = await axios.post('/api/uploads', form, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        finalImageUrl = up.data.url;
+        setUploading(false);
+      }
+      const response = await axios.post('/api/posts', { title, content, imageUrl: finalImageUrl });
       navigate(`/post/${response.data.id}`);
     } catch (error) {
       setError(error.response?.data?.message || 'Failed to create post');
@@ -39,6 +53,15 @@ const CreatePost = () => {
               required
               placeholder="Enter post title"
             />
+          </div>
+          <div className="form-group">
+            <label>Cover Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+            />
+            {(uploading) && <div className="muted" style={{marginTop:'6px'}}>Uploading...</div>}
           </div>
           <div className="form-group">
             <label>Content</label>

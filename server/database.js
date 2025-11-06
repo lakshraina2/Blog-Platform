@@ -30,11 +30,23 @@ function initDatabase() {
       title TEXT NOT NULL,
       content TEXT NOT NULL,
       author_id INTEGER NOT NULL,
+      image_url TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
     )
   `);
+
+  // Backfill: ensure image_url exists (older DBs)
+  try {
+    const columns = db.prepare("PRAGMA table_info(posts)").all();
+    const hasImageUrl = columns.some(c => c.name === 'image_url');
+    if (!hasImageUrl) {
+      db.exec('ALTER TABLE posts ADD COLUMN image_url TEXT');
+    }
+  } catch (e) {
+    // ignore if cannot alter
+  }
 
   // Comments table
   db.exec(`
@@ -108,9 +120,9 @@ const User = {
 
 // Post model methods
 const Post = {
-  create: (title, content, authorId) => {
-    const stmt = db.prepare('INSERT INTO posts (title, content, author_id) VALUES (?, ?, ?)');
-    const result = stmt.run(title, content, authorId);
+  create: (title, content, authorId, imageUrl) => {
+    const stmt = db.prepare('INSERT INTO posts (title, content, author_id, image_url) VALUES (?, ?, ?, ?)');
+    const result = stmt.run(title, content, authorId, imageUrl || null);
     return result.lastInsertRowid;
   },
 
@@ -145,9 +157,9 @@ const Post = {
     return stmt.all(authorId);
   },
 
-  update: (id, title, content) => {
-    const stmt = db.prepare('UPDATE posts SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?');
-    stmt.run(title, content, id);
+  update: (id, title, content, imageUrl) => {
+    const stmt = db.prepare('UPDATE posts SET title = ?, content = ?, image_url = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?');
+    stmt.run(title, content, imageUrl || null, id);
     return true;
   },
 
@@ -197,6 +209,18 @@ const Comment = {
     const stmt = db.prepare('DELETE FROM comments WHERE id = ?');
     stmt.run(id);
     return true;
+  },
+
+  countAll: () => {
+    const stmt = db.prepare('SELECT COUNT(*) as count FROM comments');
+    const row = stmt.get();
+    return row.count || 0;
+  },
+
+  countForPost: (postId) => {
+    const stmt = db.prepare('SELECT COUNT(*) as count FROM comments WHERE post_id = ?');
+    const row = stmt.get(postId);
+    return row.count || 0;
   }
 };
 

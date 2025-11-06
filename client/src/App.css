@@ -1,6 +1,7 @@
 .App {
   min-height: 100vh;
   background: var(--bg);
+  animation: fadeIn 300ms ease;
 }
 
 main {
@@ -13,5 +14,32 @@ main {
   border-radius: 12px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.12);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 260px 1fr;
+    gap: 10px;
+  }
+}
+
+.content {
+  padding-right: 12px;
 }
 

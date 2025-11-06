@@ -1,7 +1,7 @@
 .post-detail {
   background: var(--card);
   border-radius: 12px;
-  padding: 2rem;
+  padding: 2.25rem;
   box-shadow: var(--shadow);
   max-width: 880px;
   margin: 0 auto;
@@ -14,7 +14,7 @@
   align-items: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .post-author {
@@ -54,18 +54,48 @@
 }
 
 .post-title {
-  font-size: 2rem;
+  font-size: 2.1rem;
   margin-bottom: 1.25rem;
   color: var(--text);
 }
 
 .post-content {
-  font-size: 1.05rem;
-  line-height: 1.8;
+  font-size: 1.08rem;
+  line-height: 1.85;
   color: #4a4a4a;
   white-space: pre-wrap;
   margin-bottom: 3rem;
   padding-bottom: 2rem;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Rich text-like defaults */
+.post-content h2, .post-content h3 {
+  color: var(--text);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.post-content p + p {
+  margin-top: 1rem;
+}
+
+.post-content ul, .post-content ol {
+  margin: 1rem 0 1rem 1.25rem;
+}
+
+.post-content blockquote {
+  margin: 1.25rem 0;
+  padding: 1rem 1.25rem;
+  background: var(--muted-surface);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.post-content code {
+  background: var(--muted-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 6px;
 }
 

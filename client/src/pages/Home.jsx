@@ -29,10 +29,13 @@ const Home = () => {
   return (
     <div className="container">
       <div className="home-header">
-        <h1>Welcome to Blog Platform</h1>
-        <p>Discover amazing stories and share your thoughts</p>
+        <h1>Dashboard</h1>
+        <p>Overview of your blog activity</p>
       </div>
-      
+
+      {/* Views removed */}
+
+      <h2 style={{margin: '24px 0 16px'}}>Popular Posts</h2>
       <div className="posts-grid">
         {posts.length === 0 ? (
           <div className="no-posts">
@@ -49,6 +52,16 @@ const Home = () => {
                 <span className="post-date">
                   {new Date(post.created_at).toLocaleDateString()}
                 </span>
+              </div>
+              {post.image_url && (
+                <div className="post-cover">
+                  <img src={post.image_url} alt="cover" />
+                </div>
+              )}
+              <div className="pills" style={{marginBottom:'10px'}}>
+                <span className="pill indigo">{new Date(post.created_at).toLocaleDateString()}</span>
+                {post.username && <span className="pill pink">by {post.username}</span>}
+                {post.content && <span className="pill cyan">{Math.ceil(post.content.length / 800)} min read</span>}
               </div>
               <Link to={`/post/${post.id}`} className="post-link">
                 <h2 className="post-title">{post.title}</h2>

@@ -9,6 +9,7 @@ const Comments = ({ postId }) => {
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [loadError, setLoadError] = useState('');
 
   useEffect(() => {
     fetchComments();
@@ -21,8 +22,10 @@ const Comments = ({ postId }) => {
     try {
       const response = await axios.get(`/api/comments/post/${postId}`);
       setComments(response.data);
+      setLoadError('');
     } catch (error) {
       console.error('Error fetching comments:', error);
+      setLoadError('Failed to load comments');
     }
   };
 
@@ -90,7 +93,9 @@ const Comments = ({ postId }) => {
       )}
 
       <div className="comments-list">
-        {comments.length === 0 ? (
+        {loadError ? (
+          <p className="no-comments">{loadError}</p>
+        ) : comments.length === 0 ? (
           <p className="no-comments">No comments yet. Be the first to comment!</p>
         ) : (
           comments.map((comment) => (

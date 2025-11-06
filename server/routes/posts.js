@@ -33,7 +33,8 @@ router.get('/:id', (req, res) => {
 // Create post (protected)
 router.post('/', authMiddleware, [
   body('title').trim().notEmpty().withMessage('Title is required'),
-  body('content').trim().notEmpty().withMessage('Content is required')
+  body('content').trim().notEmpty().withMessage('Content is required'),
+  body('imageUrl').optional().isString()
 ], (req, res) => {
   try {
     const errors = validationResult(req);
@@ -41,8 +42,8 @@ router.post('/', authMiddleware, [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { title, content } = req.body;
-    const postId = Post.create(title, content, req.userId);
+    const { title, content, imageUrl } = req.body;
+    const postId = Post.create(title, content, req.userId, imageUrl);
     const post = Post.findById(postId);
 
     res.status(201).json(post);
@@ -55,7 +56,8 @@ router.post('/', authMiddleware, [
 // Update post (protected - only author)
 router.put('/:id', authMiddleware, [
   body('title').trim().notEmpty().withMessage('Title is required'),
-  body('content').trim().notEmpty().withMessage('Content is required')
+  body('content').trim().notEmpty().withMessage('Content is required'),
+  body('imageUrl').optional().isString()
 ], (req, res) => {
   try {
     const errors = validationResult(req);
@@ -72,8 +74,8 @@ router.put('/:id', authMiddleware, [
       return res.status(403).json({ message: 'Not authorized to edit this post' });
     }
 
-    const { title, content } = req.body;
-    Post.update(req.params.id, title, content);
+    const { title, content, imageUrl } = req.body;
+    Post.update(req.params.id, title, content, imageUrl);
     const updatedPost = Post.findById(req.params.id);
 
     res.json(updatedPost);

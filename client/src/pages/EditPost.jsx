@@ -10,6 +10,9 @@ const EditPost = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [imageFile, setImageFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
@@ -30,6 +33,7 @@ const EditPost = () => {
 
       setTitle(post.title);
       setContent(post.content);
+      setImageUrl(post.image_url || '');
     } catch (error) {
       setError('Failed to load post');
       console.error('Error fetching post:', error);
@@ -44,7 +48,18 @@ const EditPost = () => {
     setLoading(true);
 
     try {
-      await axios.put(`/api/posts/${id}`, { title, content });
+      let finalImageUrl = imageUrl;
+      if (imageFile) {
+        setUploading(true);
+        const form = new FormData();
+        form.append('image', imageFile);
+        const up = await axios.post('/api/uploads', form, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        finalImageUrl = up.data.url;
+        setUploading(false);
+      }
+      await axios.put(`/api/posts/${id}`, { title, content, imageUrl: finalImageUrl });
       navigate(`/post/${id}`);
     } catch (error) {
       setError(error.response?.data?.message || 'Failed to update post');
@@ -71,6 +86,15 @@ const EditPost = () => {
               required
               placeholder="Enter post title"
             />
+          </div>
+          <div className="form-group">
+            <label>Cover Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+            />
+            {(uploading) && <div className="muted" style={{marginTop:'6px'}}>Uploading...</div>}
           </div>
           <div className="form-group">
             <label>Content</label>

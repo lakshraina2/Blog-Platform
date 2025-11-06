@@ -1,10 +1,27 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initial = stored || (prefersDark ? 'dark' : 'light');
+    setTheme(initial);
+    document.documentElement.setAttribute('data-theme', initial);
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === 'light' ? 'dark' : 'light';
+    setTheme(next);
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  };
 
   const handleLogout = () => {
     logout();
@@ -42,6 +59,14 @@ const Navbar = () => {
                 </Link>
               </>
             )}
+            <button
+              aria-label="Toggle theme"
+              title="Toggle theme"
+              onClick={toggleTheme}
+              className="theme-toggle btn-outline"
+            >
+              {theme === 'dark' ? '🌙' : '☀️'}
+            </button>
           </div>
         </div>
       </div>

@@ -83,6 +83,15 @@ const PostDetail = () => {
           )}
         </div>
         
+        {post.image_url && (
+          <div style={{marginBottom:'16px', borderRadius:'12px', overflow:'hidden', border:'1px solid var(--border)'}}>
+            <img src={post.image_url} alt="cover" style={{display:'block', width:'100%', maxHeight:'420px', objectFit:'cover'}} />
+          </div>
+        )}
+        <div className="pills" style={{marginBottom:'10px'}}>
+          <span className="pill indigo">{new Date(post.created_at).toLocaleDateString()}</span>
+          {post.username && <span className="pill pink">by {post.username}</span>}
+        </div>
         <h1 className="post-title">{post.title}</h1>
         <div className="post-content">{post.content}</div>
         

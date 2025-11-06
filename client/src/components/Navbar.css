@@ -8,6 +8,10 @@
   border: 1px solid var(--border);
   margin: 0 12px;
   border-radius: 12px;
+  background-image: linear-gradient(var(--card), var(--card)),
+    linear-gradient(135deg, var(--accent-3), var(--accent-2));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
 .navbar-content {
@@ -21,6 +25,10 @@
   font-weight: 700;
   color: var(--accent);
   text-decoration: none;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .navbar-links {
@@ -41,5 +49,20 @@
   color: var(--accent);
   transform: translateY(-2px);
   background: var(--muted-surface);
+}
+
+.theme-toggle {
+  padding: 8px 10px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
 }
 

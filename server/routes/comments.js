@@ -16,6 +16,28 @@ router.get('/post/:postId', (req, res) => {
   }
 });
 
+// Get total comments count
+router.get('/count/all', (req, res) => {
+  try {
+    const count = Comment.countAll();
+    res.json({ count });
+  } catch (error) {
+    console.error('Error getting comments count:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get comments count for a post
+router.get('/count/post/:postId', (req, res) => {
+  try {
+    const count = Comment.countForPost(req.params.postId);
+    res.json({ count });
+  } catch (error) {
+    console.error('Error getting post comments count:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 // Create comment (protected)
 router.post('/', authMiddleware, [
   body('content').trim().notEmpty().withMessage('Comment content is required'),
